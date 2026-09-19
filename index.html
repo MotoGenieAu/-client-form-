@@ -602,10 +602,14 @@
     } else { setSyncStatus('local'); }
   }
 
-  async function sendToSheets(entry) {
-    const params = new URLSearchParams({ name: entry.name, email: entry.email, phone: entry.phone, postcode: entry.postcode, savedAt: entry.savedAt });
-    await fetch(`${scriptUrl}?${params}`, { method: 'GET', mode: 'no-cors' });
-  }
+async function sendToSheets(entry) {
+  await fetch(scriptUrl, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: entry.name, email: entry.email, phone: entry.phone, postcode: entry.postcode, savedAt: entry.savedAt })
+  });
+}
 
   function setSaving(on) {
     document.getElementById('saveBtn').disabled = on;
